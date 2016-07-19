@@ -7,6 +7,16 @@ import java.util.List;
  * Created by Berezovyi Aleksandr on 7/18/2016.
  */
 public class Task4 {
+//    public int fib(int N) {
+//        validation(N);
+//        return calculate(N);
+//    }
+//
+//    private int calculate(int N) {
+//        if (N <= 1) return N;
+//        else return fib(N - 1) + fib(N - 2);
+//    }
+
     public List<Integer> list = new ArrayList<>();
 
     private void setup() {

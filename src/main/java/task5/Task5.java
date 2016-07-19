@@ -12,19 +12,22 @@ public class Task5 {
     private int currentMonth;
 
     public void setDayOfMonth(int day) {
-        if (day < 1)
+        currentDay = day;
+        if (currentMonth == 0)
+            throw new IllegalArgumentException("Must set month first!");
+        if (currentDay < 1)
             throw new IllegalArgumentException("Day of month " + currentMonth + " must be more than 1");
         if ((currentMonth % 2 == 0 && currentMonth < 8 && currentMonth != 2) || (currentMonth % 2 != 0 && currentMonth > 8)) {
-            if (day > 30)
+            if (currentDay > 30)
                 throw new IllegalArgumentException("Day of month " + currentMonth + " musts be between 1 and 30");
         } else if (currentMonth == 2) {
-            if (day > 28)
+            if (currentDay > 28)
                 throw new IllegalArgumentException("Day of month " + currentMonth + " musts be between 1 and 28");
         } else {
-            if (day > 30)
+            if (currentDay > 31)
                 throw new IllegalArgumentException("Day of month " + currentMonth + " musts be between 1 and 31");
         }
-        allDays += day - 1;
+        allDays += currentDay - 1;
     }
 
     public void setMonth(int month) {
