@@ -17,7 +17,7 @@ public class Task4Test {
     private Task4 task;
     private Random random;
     private final int leftBorderValidN = 0; //inclusive
-    private final int rightBorderValidN = 46; //exclusive
+    private final int rightBorderValidN = 46; //exclusive (fib number can't be more than 46 because it causes Integer overflow)
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -44,12 +44,13 @@ public class Task4Test {
 
     @Test
     public void invalidN() {
+        test(leftBorderValidN - 1, IllegalArgumentException.class, "fib number can't be negative");
+
         try {
             task.fib(leftBorderValidN - 1);
             fail("fib number can't be negative");
-        } catch (Exception e) {
-            assertThat(e, instanceOf(IllegalArgumentException.class));
-        }
+        } catch (IllegalArgumentException e) {/*nothing*/}
+
         try {
             task.fib(rightBorderValidN + 1);
             fail("fib number can't be more than " + rightBorderValidN + " because it causes Integer overflow");
@@ -68,5 +69,9 @@ public class Task4Test {
         } catch (Exception e) {
             assertThat(e, instanceOf(ArithmeticException.class));
         }
+    }
+
+    private void test(int i, Class<IllegalArgumentException> illegalArgumentExceptionClass, String s) {
+
     }
 }

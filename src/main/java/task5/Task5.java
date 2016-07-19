@@ -10,6 +10,11 @@ public class Task5 {
     private int weekdayOfNewYear;
     private int currentDay;
     private int currentMonth;
+    private int currentWeekday;
+
+    public int getCurrentWeekday() {
+        return currentWeekday;
+    }
 
     public void setDayOfMonth(int day) {
         currentDay = day;
@@ -54,12 +59,12 @@ public class Task5 {
         }
     }
 
-    public int getWeekday() {
+    public void calculateWeekday() {
         calculateDays();
         if ((allDays + weekdayOfNewYear) % 7 == 0)
-            return 7;
+            currentWeekday = 7;
         else
-            return (allDays + weekdayOfNewYear) % 7;
+            currentWeekday = (allDays + weekdayOfNewYear) % 7;
     }
 
     public static void main(String[] args) {
@@ -71,6 +76,7 @@ public class Task5 {
         task.setDayOfMonth(Integer.parseInt(scanner.nextLine()));
         System.out.print("Enter weekdayOfNewYear - ");
         task.setWeekdayOfNewYear(Integer.parseInt(scanner.nextLine()));
-        System.out.print("Result - " + task.getWeekday());
+        task.calculateWeekday();
+        System.out.print("Result - " + task.getCurrentWeekday());
     }
 }
