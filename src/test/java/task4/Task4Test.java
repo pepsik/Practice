@@ -1,13 +1,11 @@
 package task4;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.Random;
 
-import static org.hamcrest.Matchers.instanceOf;
+import static java.lang.Integer.MAX_VALUE;
 import static org.junit.Assert.*;
 
 /**
@@ -15,18 +13,6 @@ import static org.junit.Assert.*;
  */
 public class Task4Test {
     private Task4 task;
-    private Random random;
-    private final int leftBorderValidN = 0; //inclusive
-    private final int rightBorderValidN = 46; //exclusive (fib number can't be more than 46 because it causes Integer overflow)
-
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
-    @Before
-    public void SetUp() {
-        task = new Task4();
-        random = new Random();
-    }
 
     @Test
     public void validNValues() {
@@ -37,41 +23,42 @@ public class Task4Test {
         assertEquals(task.fib(4), 3);
         assertEquals(task.fib(5), 5);
         assertEquals(task.fib(6), 8);
+
         assertEquals(task.fib(10), 55);
         assertEquals(task.fib(15), 610);
+
         assertEquals(task.fib(45), 1134903170);
     }
 
     @Test
-    public void invalidN() {
-        test(leftBorderValidN - 1, IllegalArgumentException.class, "fib number can't be negative");
+    public void invalidNValues() {
+        int min = 0; //inclusive
+        int max = 46; //exclusive
 
-        try {
-            task.fib(leftBorderValidN - 1);
-            fail("fib number can't be negative");
-        } catch (IllegalArgumentException e) {/*nothing*/}
+        IllegalArgExTest(min - 1, "fib number can't be negative");
+        ArithmeticExTest(max, "fib number can't be more than " + max + " because it causes Integer overflow");
 
-        try {
-            task.fib(rightBorderValidN + 1);
-            fail("fib number can't be more than " + rightBorderValidN + " because it causes Integer overflow");
-        } catch (Exception e) {
-            assertThat(e, instanceOf(ArithmeticException.class));
-        }
-        try {
-            task.fib((random.nextInt(Integer.MAX_VALUE - leftBorderValidN) + leftBorderValidN) * -1); //0 is valid N therefore + 1
-            fail("fib number can't be negative");
-        } catch (Exception e) {
-            assertThat(e, instanceOf(IllegalArgumentException.class));
-        }
-        try {
-            task.fib((random.nextInt(Integer.MAX_VALUE - rightBorderValidN) + rightBorderValidN));
-            fail("fib number can't be more than " + rightBorderValidN + " because it causes Integer overflow");
-        } catch (Exception e) {
-            assertThat(e, instanceOf(ArithmeticException.class));
-        }
+        Random random = new Random();
+        IllegalArgExTest(-(random.nextInt(MAX_VALUE - min) + min), "fib number can't be negative");
+        ArithmeticExTest((random.nextInt(MAX_VALUE - max) + max), "fib number can't be more than " + max + " because it causes Integer overflow");
     }
 
-    private void test(int i, Class<IllegalArgumentException> illegalArgumentExceptionClass, String s) {
+    @Before
+    public void SetUp() {
+        task = new Task4();
+    }
 
+    private void IllegalArgExTest(int N, String errMsg) {
+        try {
+            task.fib(N);
+            fail(errMsg);
+        } catch (IllegalArgumentException e) { /*expected behavior*/ }
+    }
+
+    private void ArithmeticExTest(int N, String errMsg) {
+        try {
+            task.fib(N);
+            fail(errMsg);
+        } catch (ArithmeticException e) { /*expected behavior*/ }
     }
 }
