@@ -9,9 +9,14 @@ public class Task1 {
     private int x;
     private int y;
 
-    public void setXY(int x, int y) {
+    public Task1(int x, int y) {
         this.x = x;
         this.y = y;
+        checkValues();
+    }
+
+    private void checkValues() {
+        Math.addExact(Math.abs(x), Math.abs(y));
     }
 
     public int getX() {
@@ -23,7 +28,6 @@ public class Task1 {
     }
 
     public void inverseXY() {
-        Math.addExact(Math.abs(x), Math.abs(y));
         x = x + y;
         y = x - y;
         x -= y;
@@ -35,13 +39,12 @@ public class Task1 {
     }
 
     public static void main(String[] args) {
-        Task1 task = new Task1();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter number x - ");
         int x = Integer.parseInt(scanner.nextLine());
         System.out.print("Enter number y - ");
         int y = Integer.parseInt(scanner.nextLine());
-        task.setXY(x, y);
+        Task1 task = new Task1(x, y);
         task.inverseXY();
         task.print();
     }

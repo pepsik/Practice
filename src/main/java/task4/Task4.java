@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Task4 {
 //    public int fib(int N) {
-//        validation(N);
+//        checkValue(N);
 //        return calculate(N);
 //    }
 //
@@ -17,23 +17,21 @@ public class Task4 {
 //        else return fib(N - 1) + fib(N - 2);
 //    }
 
-    public List<Integer> list = new ArrayList<>();
+    private List<Integer> list = new ArrayList<>();
 
-    private void setup() {
-        list.clear();
+    public Task4() {
         list.add(0);
         list.add(1);
         list.add(1);
     }
 
-    private void validation(int N) {
+    private void checkValue(int N) {
         if (N < 0)
             throw new IllegalArgumentException("N Should more than 0 inclusive");
     }
 
     public int fib(int N) {
-        setup();
-        validation(N);
+        checkValue(N);
         for (int i = 2; i < N + 1; i++) {
             list.add(Math.addExact(list.get(i - 1), list.get(i)));
         }

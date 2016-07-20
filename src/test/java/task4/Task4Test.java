@@ -12,22 +12,22 @@ import static org.junit.Assert.*;
  * Created by Berezovyi Aleksandr on 7/18/2016.
  */
 public class Task4Test {
-    private Task4 task;
+    private static final String MESSAGE = "Expected exception !NOT THROWN!";
 
     @Test
     public void validNValues() {
-        assertEquals(task.fib(0), 0);
-        assertEquals(task.fib(1), 1);
-        assertEquals(task.fib(2), 1);
-        assertEquals(task.fib(3), 2);
-        assertEquals(task.fib(4), 3);
-        assertEquals(task.fib(5), 5);
-        assertEquals(task.fib(6), 8);
+        testFib(0, 0);
+        testFib(1, 1);
+        testFib(1, 2);
+        testFib(2, 3);
+        testFib(3, 4);
+        testFib(5, 5);
+        testFib(8, 6);
 
-        assertEquals(task.fib(10), 55);
-        assertEquals(task.fib(15), 610);
+        testFib(55, 10);
+        testFib(610, 15);
 
-        assertEquals(task.fib(45), 1134903170);
+        testFib(1134903170, 45);
     }
 
     @Test
@@ -35,30 +35,38 @@ public class Task4Test {
         int min = 0; //inclusive
         int max = 46; //exclusive
 
-        IllegalArgExTest(min - 1, "fib number can't be negative");
-        ArithmeticExTest(max, "fib number can't be more than " + max + " because it causes Integer overflow");
-
         Random random = new Random();
-        IllegalArgExTest(-(random.nextInt(MAX_VALUE - min) + min), "fib number can't be negative");
-        ArithmeticExTest((random.nextInt(MAX_VALUE - max) + max), "fib number can't be more than " + max + " because it causes Integer overflow");
+        IllegalArgExTest(-1);
+        IllegalArgExTest(-10);
+        IllegalArgExTest(-1123);
+        IllegalArgExTest(-random.nextInt(MAX_VALUE));
+        IllegalArgExTest(-random.nextInt(MAX_VALUE));
+
+        ArithmeticExTest(max);
+        ArithmeticExTest(max + 1);
+        ArithmeticExTest(max + 1123);
+        ArithmeticExTest(max + random.nextInt(MAX_VALUE - max));
+        ArithmeticExTest((random.nextInt(MAX_VALUE - max) + max));
     }
 
-    @Before
-    public void SetUp() {
-        task = new Task4();
+    private void testFib(int expected, int N) {
+        Task4 task = new Task4();
+        assertEquals(expected, task.fib(N));
     }
 
-    private void IllegalArgExTest(int N, String errMsg) {
+    private void IllegalArgExTest(int N) {
+        Task4 task = new Task4();
         try {
             task.fib(N);
-            fail(errMsg);
+            fail(MESSAGE);
         } catch (IllegalArgumentException e) { /*expected*/ }
     }
 
-    private void ArithmeticExTest(int N, String errMsg) {
+    private void ArithmeticExTest(int N) {
+        Task4 task = new Task4();
         try {
             task.fib(N);
-            fail(errMsg);
+            fail(MESSAGE);
         } catch (ArithmeticException e) { /*expected*/ }
     }
 }
