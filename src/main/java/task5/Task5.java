@@ -67,6 +67,17 @@ public class Task5 {
             currentWeekday = (allDays + weekdayOfNewYear) % 7;
     }
 
+    @Override
+    public String toString() {
+        return "Task5{" +
+                "allDays=" + allDays +
+                ", weekdayOfNewYear=" + weekdayOfNewYear +
+                ", currentDay=" + currentDay +
+                ", currentMonth=" + currentMonth +
+                ", currentWeekday=" + currentWeekday +
+                '}';
+    }
+
     public static void main(String[] args) {
         Task5 task = new Task5();
         Scanner scanner = new Scanner(System.in);
