@@ -14,14 +14,25 @@ public class Task1Test {
 
     @Test
     public void invalidValues() {
+        Random random = new Random();
         testXYExpectEx(MAX_VALUE, 1);
         testXYExpectEx(1, MAX_VALUE);
+        testXYExpectEx(MAX_VALUE, random.nextInt(MAX_VALUE));
+        testXYExpectEx(random.nextInt(MAX_VALUE), MAX_VALUE);
 
         testXYExpectEx(-MAX_VALUE, MAX_VALUE);
         testXYExpectEx(MAX_VALUE, -MAX_VALUE);
-
         testXYExpectEx(MAX_VALUE / 2, MAX_VALUE / 2 + 2);
         testXYExpectEx(-MAX_VALUE / 2, -MAX_VALUE / 2 - 2);
+
+        int temp1 = random.nextInt(MAX_VALUE), temp2 = MAX_VALUE - temp1 + 1;
+        testXYExpectEx(temp1, temp2);
+        testXYExpectEx(temp2, temp1);
+
+        temp1 = -random.nextInt(MAX_VALUE);
+        temp2 = MAX_VALUE + temp1 + 1;
+        testXYExpectEx(temp1, temp2);
+        testXYExpectEx(temp2, temp1);
     }
 
     @Test
