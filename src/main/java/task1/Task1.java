@@ -9,18 +9,27 @@ public class Task1 {
     private int x;
     private int y;
 
-    void setXY(int x, int y) {
+    public void setXY(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    void inverseXY() {
-        x += y;
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void inverseXY() {
+        Math.addExact(Math.abs(x), Math.abs(y));
+        x = x + y;
         y = x - y;
         x -= y;
     }
 
-    void print() {
+    public void print() {
         System.out.println("Result x - " + x);
         System.out.println("Result y - " + y);
     }

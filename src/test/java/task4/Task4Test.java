@@ -52,13 +52,13 @@ public class Task4Test {
         try {
             task.fib(N);
             fail(errMsg);
-        } catch (IllegalArgumentException e) { /*expected behavior*/ }
+        } catch (IllegalArgumentException e) { /*expected*/ }
     }
 
     private void ArithmeticExTest(int N, String errMsg) {
         try {
             task.fib(N);
             fail(errMsg);
-        } catch (ArithmeticException e) { /*expected behavior*/ }
+        } catch (ArithmeticException e) { /*expected*/ }
     }
 }

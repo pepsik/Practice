@@ -10,11 +10,18 @@ public class Task2 {
     public Task2(int floors, int apartmentsPerFloor) {
         this.floors = floors;
         this.apartmentsPerFloor = apartmentsPerFloor;
+        checkValues();
+    }
+
+    private void checkValues() {
+        if (floors < 1 || apartmentsPerFloor < 1)
+            throw new IllegalArgumentException();
+        Math.multiplyExact(apartmentsPerFloor, floors);
     }
 
     public int getFloor(int apartment) {
         if (apartment % (apartmentsPerFloor * floors) == 0)
-            return 9;
+            return floors;
         if (apartment % (apartmentsPerFloor * floors) % apartmentsPerFloor == 0)
             return apartment % (apartmentsPerFloor * floors) / apartmentsPerFloor;
         return apartment % (apartmentsPerFloor * floors) / apartmentsPerFloor + 1;
@@ -26,17 +33,17 @@ public class Task2 {
         return apartment / (apartmentsPerFloor * floors) + 1;
     }
 
-    public void print(int apartament) {
-        System.out.println("Floor - " + getFloor(apartament));
-        System.out.println("Entrance - " + getEntrance(apartament));
+    public void findApartment(int apartment) {
+        System.out.println("Floor - " + getFloor(apartment));
+        System.out.println("Entrance - " + getEntrance(apartment));
     }
 
     public static void main(String[] args) {
-        Task2 task = new Task2(1, 1);
+        Task2 task = new Task2(2, 2);
 
-        for (int i = 1; i <20; i++) {
+        for (int i = 1; i < 20; i++) {
             System.out.println("------" + i + "-------");
-            task.print(i);
+            task.findApartment(i);
         }
     }
 }
