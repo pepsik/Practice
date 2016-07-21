@@ -1,6 +1,5 @@
 package task4;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Random;
@@ -12,7 +11,8 @@ import static org.junit.Assert.*;
  * Created by Berezovyi Aleksandr on 7/18/2016.
  */
 public class Task4Test {
-    private static final String MESSAGE = "Expected exception !NOT THROWN!";
+    private static final String MSG = "Data must have invalid values!";
+    private static Random r = new Random();
 
     @Test
     public void validNValues() {
@@ -31,22 +31,33 @@ public class Task4Test {
     }
 
     @Test
+    public void testBoris(){
+        Task4 task = new Task4();//todo fix
+
+        assertEquals(3, task.fib(4));
+        assertEquals(3, task.fib(4));
+        assertEquals(5, task.fib(5));
+        assertEquals(5, task.fib(5));
+        assertEquals(8, task.fib(6));
+        assertEquals(3, task.fib(4));
+        assertEquals(8, task.fib(6));
+    }
+
+    @Test
     public void invalidNValues() {
         int min = 0; //inclusive
         int max = 46; //exclusive
 
-        Random random = new Random();
-        IllegalArgExTest(-1);
-        IllegalArgExTest(-10);
-        IllegalArgExTest(-1123);
-        IllegalArgExTest(-random.nextInt(MAX_VALUE));
-        IllegalArgExTest(-random.nextInt(MAX_VALUE));
+        illegalArgExTest(-1);
+        illegalArgExTest(-10);
+        illegalArgExTest(-1123);
+        illegalArgExTest(-r.nextInt(MAX_VALUE));
 
-        ArithmeticExTest(max);
-        ArithmeticExTest(max + 1);
-        ArithmeticExTest(max + 1123);
-        ArithmeticExTest(max + random.nextInt(MAX_VALUE - max));
-        ArithmeticExTest((random.nextInt(MAX_VALUE - max) + max));
+        arithmeticExTest(max);
+        arithmeticExTest(max + 1);
+        arithmeticExTest(max + 1123);
+        arithmeticExTest(max + r.nextInt(MAX_VALUE - max));
+        arithmeticExTest((r.nextInt(MAX_VALUE - max) + max));
     }
 
     private void testFib(int expected, int N) {
@@ -54,19 +65,19 @@ public class Task4Test {
         assertEquals(expected, task.fib(N));
     }
 
-    private void IllegalArgExTest(int N) {
+    private void illegalArgExTest(int N) {
         Task4 task = new Task4();
         try {
             task.fib(N);
-            fail(MESSAGE);
+            fail(MSG);
         } catch (IllegalArgumentException e) { /*expected*/ }
     }
 
-    private void ArithmeticExTest(int N) {
+    private void arithmeticExTest(int N) {
         Task4 task = new Task4();
         try {
             task.fib(N);
-            fail(MESSAGE);
+            fail(MSG);
         } catch (ArithmeticException e) { /*expected*/ }
     }
 }

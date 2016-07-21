@@ -1,49 +1,80 @@
 package task2;
 
 /**
- * Created by Berezovyi Aleksandr on 7/18/2016.
+ * The {@code Task2} class represents a simple house with number of floors, apartments, entrances.
+ * It consist two int values floors, apartPerFloor (apartment per floor). The purpose of this class is to count
+ * the number of entrance and floor using 3 input values: house floors count, apartments per floor count and number of apartment
+ * which will seek. E.g. input data
+ * <blockquote><pre>
+ * floors = 9
+ * apartPerFloor = 4
+ * apartment = 72
+ * </pre></blockquote>
+ * will find apartment 72 and return
+ * <blockquote><pre>
+ * entrance = 2
+ * floor = 9
+ * </pre></blockquote>
  */
 public class Task2 {
     private final int floors;
-    private final int apartmentsPerFloor;
+    private final int apartPerFloor;
 
+    /**
+     * Initializes a newly created Task2 object with two values: floors, apartmentsPerFloor and checks it {@link Task2#checkValues()}
+     * @param floors             input floor value
+     * @param apartmentsPerFloor input apartments per floor value
+     */
     public Task2(int floors, int apartmentsPerFloor) {
         this.floors = floors;
-        this.apartmentsPerFloor = apartmentsPerFloor;
+        this.apartPerFloor = apartmentsPerFloor;
         checkValues();
     }
 
+    /**
+     * Checks values if they are negative then {@link IllegalArgumentException} will thrown
+     * or if they multiply cause int overflow then {@link ArithmeticException} will thrown
+     */
     private void checkValues() {
-        if (floors < 1 || apartmentsPerFloor < 1)
+        if (floors < 1 || apartPerFloor < 1) {
             throw new IllegalArgumentException();
-        Math.multiplyExact(apartmentsPerFloor, floors);
-    }
-
-    public int getFloor(int apartment) {
-        if (apartment % (apartmentsPerFloor * floors) == 0)
-            return floors;
-        if (apartment % (apartmentsPerFloor * floors) % apartmentsPerFloor == 0)
-            return apartment % (apartmentsPerFloor * floors) / apartmentsPerFloor;
-        return apartment % (apartmentsPerFloor * floors) / apartmentsPerFloor + 1;
-    }
-
-    public int getEntrance(int apartment) {
-        if (apartment % (apartmentsPerFloor * floors) == 0)
-            return apartment / (apartmentsPerFloor * floors);
-        return apartment / (apartmentsPerFloor * floors) + 1;
-    }
-
-    public void findApartment(int apartment) {
-        System.out.println("Floor - " + getFloor(apartment));
-        System.out.println("Entrance - " + getEntrance(apartment));
-    }
-
-    public static void main(String[] args) {
-        Task2 task = new Task2(2, 2);
-
-        for (int i = 1; i < 20; i++) {
-            System.out.println("------" + i + "-------");
-            task.findApartment(i);
         }
+        Math.multiplyExact(apartPerFloor, floors);
     }
+
+    /**
+     * Finds a floor number by given apartment number
+     * @param apart input apartment value
+     * @return floor number
+     */
+    public int getFloor(int apart) {
+        int apartPerEntrance = apartPerFloor * floors;
+
+        int i = apart % apartPerEntrance;//todo name somehow
+
+        if (i == 0) {
+            return floors;
+        }
+
+        if (i % apartPerFloor == 0) {
+            return i / apartPerFloor;
+        }
+
+        return i / apartPerFloor + 1;
+    }
+
+    /**
+     * Finds a entrances number by given apartment number
+     * @param apart input apartment value
+     * @return entrance number
+     */
+    public int getEntrance(int apart) {
+        int apartPerEntrance = apartPerFloor * floors;
+
+        if (apart % (apartPerEntrance) == 0) {//todo remove all brackets
+            return apart / (apartPerEntrance);
+        }
+        return apart / (apartPerEntrance) + 1;
+    }
+
 }

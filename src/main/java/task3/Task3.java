@@ -1,45 +1,69 @@
 package task3;
 
 /**
- * Created by Berezovyi Aleksandr on 7/18/2016.
+ * The {@code Task3} class represents a logic to calculate greatest common divisor (NOD) logic. E.g. input
+ * <blockquote><pre>
+ * new int {10, 5, 15}
+ * </pre></blockquote>
+ * <p>and result will be</p>
+ * <blockquote><pre>
+ * maxDivider = 5;
+ * </pre></blockquote>
  */
 public class Task3 {
-
     private int[] data;
 
+    /**
+     * Initializes a newly created Task3 object with int array of values and checks it {@link Task3#checkValues()}
+     * @param data input values
+     */
     public Task3(int[] data) {
         this.data = data;
         checkValues();
     }
 
+    /**
+     * Finds greatest common divisor (GCD)
+     * @return max divider
+     */
     public int getNOD() {
         int min = findMinOfData();
-        int maxDivider = -1;
+        int gcd = -1;
+
         // finding max divider
-        for (int i = min; i > 0; i--) {
-            //supposed it was found
-            maxDivider = i;
-            //check suppose
+        for (int i = min; i > 0; i--) {//todo simplify
+            gcd = i;//supposed it was found
+
+            //check if gcd is expected divider of all data values
             for (int value : data) {
+
+                //if not divisible - skip (assigned -1)
                 if (value % i != 0) {
-                    //if not divisible - skip
-                    maxDivider = -1;
+                    gcd = -1;
                     break;
                 }
             }
-            //check if found
-            if (maxDivider != -1)
+            //break if gcd found
+            if (gcd != -1)//todo all with brackets
                 break;
         }
-        return maxDivider;
+        return gcd;
     }
 
+    /**
+     * Checks values if they are not bigger than 1 - {@link IllegalArgumentException} will thrown
+     */
     private void checkValues() {
         for (int value : data)
-            if (value < 1)
+            if (value < 1) {
                 throw new IllegalArgumentException();
+            }
     }
 
+    /**
+     * Finds minimum values of input array values
+     * @return min value
+     */
     private int findMinOfData() {
         int min = Integer.MAX_VALUE;
         for (int value : data) {
@@ -48,10 +72,5 @@ public class Task3 {
             }
         }
         return min;
-    }
-
-    public static void main(String[] args) {
-        Task3 task = new Task3(new int[]{12, -60, 30, 24});
-        System.out.println(task.getNOD());
     }
 }

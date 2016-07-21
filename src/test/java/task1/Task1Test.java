@@ -8,28 +8,30 @@ import static java.lang.Integer.MAX_VALUE;
 import static org.junit.Assert.*;
 
 /**
- * Created by Berezovyi Aleksandr on 7/20/2016.
+ * Test checks valid and invalid int x, y values including boundary values {@link Integer#MAX_VALUE}
  */
 public class Task1Test {
+    private static Random r = new Random();
+    private static final int HALF = MAX_VALUE / 2;
+    private static final String MSG = "Data must have invalid values!";
 
     @Test
     public void invalidValues() {
-        Random random = new Random();
         testXYExpectEx(MAX_VALUE, 1);
         testXYExpectEx(1, MAX_VALUE);
-        testXYExpectEx(MAX_VALUE, random.nextInt(MAX_VALUE));
-        testXYExpectEx(random.nextInt(MAX_VALUE), MAX_VALUE);
+        testXYExpectEx(MAX_VALUE, r.nextInt(MAX_VALUE));
+        testXYExpectEx(r.nextInt(MAX_VALUE), MAX_VALUE);
 
         testXYExpectEx(-MAX_VALUE, MAX_VALUE);
         testXYExpectEx(MAX_VALUE, -MAX_VALUE);
-        testXYExpectEx(MAX_VALUE / 2, MAX_VALUE / 2 + 2);
-        testXYExpectEx(-MAX_VALUE / 2, -MAX_VALUE / 2 - 2);
+        testXYExpectEx(HALF, HALF + 2);
+        testXYExpectEx(-HALF, -HALF - 2);
 
-        int temp1 = random.nextInt(MAX_VALUE), temp2 = MAX_VALUE - temp1 + 1;
+        int temp1 = r.nextInt(MAX_VALUE), temp2 = MAX_VALUE - temp1 + 1;
         testXYExpectEx(temp1, temp2);
         testXYExpectEx(temp2, temp1);
 
-        temp1 = -random.nextInt(MAX_VALUE);
+        temp1 = -r.nextInt(MAX_VALUE);
         temp2 = MAX_VALUE + temp1 + 1;
         testXYExpectEx(temp1, temp2);
         testXYExpectEx(temp2, temp1);
@@ -71,31 +73,47 @@ public class Task1Test {
         testXY(-1, -1213);
 
         testXY(MAX_VALUE, 0);
-        testXY(MAX_VALUE - 1, 1);
         testXY(0, MAX_VALUE);
-        testXY(1, MAX_VALUE - 1);
-        testXY(MAX_VALUE / 2, MAX_VALUE / 2);
-        testXY(-MAX_VALUE / 2, MAX_VALUE / 2);
 
-        Random random = new Random();
-        testXY(random.nextInt(MAX_VALUE), 0);
-        testXY(0, random.nextInt(MAX_VALUE));
-        testXY(random.nextInt(MAX_VALUE / 2), random.nextInt(MAX_VALUE / 2));
-        testXY(-random.nextInt(MAX_VALUE / 2), -random.nextInt(MAX_VALUE / 2));
-        testXY(random.nextInt(MAX_VALUE / 2), -random.nextInt(MAX_VALUE / 2));
-        testXY(-random.nextInt(MAX_VALUE / 2), random.nextInt(MAX_VALUE / 2));
+        testXY(MAX_VALUE - 1, 1);
+        testXY(1, MAX_VALUE - 1);
+
+
+        testXY(HALF, HALF);
+        testXY(-HALF, HALF);
+
+        testXY(r.nextInt(MAX_VALUE), 0);
+        testXY(0, r.nextInt(MAX_VALUE));
+        testXY(r.nextInt(HALF), r.nextInt(HALF));
+        testXY(-r.nextInt(HALF), -r.nextInt(HALF));
+        testXY(r.nextInt(HALF), -r.nextInt(HALF));
+        testXY(-r.nextInt(HALF), r.nextInt(HALF));
     }
 
-    private void testXYExpectEx(int x, int y) {
+    /**
+     * Checks invalid x, y values and expecting {@link ArithmeticException}
+     * <p>If no {@link ArithmeticException} thrown test will fail </p>
+     *
+     * @param x int
+     * @param y int
+     */
+    private static void testXYExpectEx(int x, int y) {
         try {
-            Task1 task = new Task1(x, y);
-            fail("Data must have invalid values!");
+            new Task1(x, y);
+            fail(MSG);
         } catch (ArithmeticException e) {
             /*expected*/
         }
     }
 
-    private void testXY(int x, int y) {
+    /**
+     * Checks valid x, y values and expecting success asserts
+     * <p> If any Exception will be thrown test will fail</p>
+     *
+     * @param x int
+     * @param y int
+     */
+    private static void testXY(int x, int y) {
         Task1 task = new Task1(x, y);
         task.inverseXY();
         assertEquals(x, task.getY());

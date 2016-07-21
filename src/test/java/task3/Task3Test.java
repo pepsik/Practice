@@ -1,11 +1,10 @@
 package task3;
 
-import org.junit.Assert;
 import org.junit.Test;
-import task2.Task2;
 
 import java.util.Random;
 
+import static java.lang.Integer.MAX_VALUE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -13,6 +12,8 @@ import static org.junit.Assert.fail;
  * Created by Berezovyi Aleksandr on 7/20/2016.
  */
 public class Task3Test {
+    private static Random r = new Random();
+    private static final String MSG = "Data must have invalid values!";
 
     @Test
     public void validNODValues() {
@@ -27,6 +28,12 @@ public class Task3Test {
         testNOD(2, 10, 52);
         testNOD(14, 14, 14);
 
+        for (int i = 1; i < 100; i++) {
+            testNOD(1, 113, r.nextInt(112) + 1);
+            testNOD(1, 211, r.nextInt(210) + 1, r.nextInt(210) + 1);
+            testNOD(1, 17, r.nextInt(16) + 1, r.nextInt(16) + 1 + 17);
+        }
+
         testNOD(1, 5, 10, 12);
         testNOD(4, 24, 576, 20);
 
@@ -38,18 +45,17 @@ public class Task3Test {
 
     @Test
     public void invalidNODValues() {
-        Random random = new Random();
         testNODExpectEx(0);
         testNODExpectEx(-1);
         testNODExpectEx(-99);
-        testNODExpectEx(-random.nextInt(Integer.MAX_VALUE));
+        testNODExpectEx(-r.nextInt(MAX_VALUE));
 
         testNODExpectEx(0, 0);
         testNODExpectEx(0, 1);
         testNODExpectEx(-1, 1);
-        testNODExpectEx(-random.nextInt(Integer.MAX_VALUE), 1);
+        testNODExpectEx(-r.nextInt(MAX_VALUE), 1);
 
-        testNODExpectEx(-1, random.nextInt(Integer.MAX_VALUE));
+        testNODExpectEx(-1, r.nextInt(MAX_VALUE));
         testNODExpectEx(0, 10, 11);
         testNODExpectEx(2, 10, -11, 56);
     }
@@ -61,8 +67,8 @@ public class Task3Test {
 
     private void testNODExpectEx(int... values) {
         try {
-            Task3 task = new Task3(values);
-            fail("Data must have invalid values!");
+            new Task3(values);
+            fail(MSG);
         } catch (IllegalArgumentException e) {
             /*expected*/
         }

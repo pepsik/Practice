@@ -10,9 +10,8 @@ import static org.junit.Assert.*;
  * Created by Berezovyi Aleksandr on 7/18/2016.
  */
 public class Task5Test {
-    private static final String MESSAGE = "Expected exception of \"" + IllegalArgumentException.class + "\" !NOT THROWN!";
-
-    private Random random = new Random();
+    private static final String MSG = "Data must have invalid values!";
+    private Random r = new Random();
 
     @Test
     public void invalidWeekday() {
@@ -24,8 +23,9 @@ public class Task5Test {
         testWeekdayExpectEx(9);
         testWeekdayExpectEx(92);
         testWeekdayExpectEx(178);
-        testWeekdayExpectEx(-random.nextInt(Integer.MAX_VALUE));
-        testWeekdayExpectEx(random.nextInt(Integer.MAX_VALUE - 7) + 8);
+
+        testWeekdayExpectEx(-r.nextInt(Integer.MAX_VALUE));
+        testWeekdayExpectEx(r.nextInt(Integer.MAX_VALUE - 7) + 8);
     }
 
     @Test
@@ -36,8 +36,9 @@ public class Task5Test {
         testMonthExpectEx(13);
         testMonthExpectEx(14);
         testMonthExpectEx(140);
-        testMonthExpectEx(random.nextInt(Integer.MAX_VALUE - 12) + 13);
-        testMonthExpectEx(-random.nextInt(Integer.MAX_VALUE));
+
+        testMonthExpectEx(r.nextInt(Integer.MAX_VALUE - 12) + 13);
+        testMonthExpectEx(-r.nextInt(Integer.MAX_VALUE));
     }
 
     @Test
@@ -48,10 +49,10 @@ public class Task5Test {
 
         testDayExpectEx(-10, 2);
         testDayExpectEx(-60, 1);
-        testDayExpectEx(-5, random.nextInt(12) + 1);
-        testDayExpectEx(-random.nextInt(Integer.MAX_VALUE), 4);
-        testDayExpectEx(-random.nextInt(Integer.MAX_VALUE), 11);
-        testDayExpectEx(-random.nextInt(Integer.MAX_VALUE), random.nextInt(12) + 1);
+        testDayExpectEx(-5, r.nextInt(12) + 1);
+        testDayExpectEx(-r.nextInt(Integer.MAX_VALUE), 4);
+        testDayExpectEx(-r.nextInt(Integer.MAX_VALUE), 11);
+        testDayExpectEx(-r.nextInt(Integer.MAX_VALUE), r.nextInt(12) + 1);
 
         testDayExpectEx(32, 3);
         testDayExpectEx(29, 2);
@@ -113,21 +114,21 @@ public class Task5Test {
     private void testWeekdayExpectEx(int weekday) {
         Task5 task = new Task5();
         try {
-            task.setWeekdayOfNewYear(weekday);
-            fail(MESSAGE);
+            task.setWeekdayOfNY(weekday);
+            fail(MSG);
         } catch (IllegalArgumentException e) { /*expected*/ }
     }
 
     private void testWeekday(int weekday) {
         Task5 task = new Task5();
-        task.setWeekdayOfNewYear(weekday);
+        task.setWeekdayOfNY(weekday);
     }
 
     private void testMonthExpectEx(int month) {
         Task5 task = new Task5();
         try {
             task.setMonth(month);
-            fail(MESSAGE);
+            fail(MSG);
         } catch (IllegalArgumentException e) {/*expected*/}
     }
 
@@ -141,7 +142,7 @@ public class Task5Test {
         task.setMonth(month);
         try {
             task.setDayOfMonth(day);
-            fail(MESSAGE);
+            fail(MSG);
         } catch (IllegalArgumentException e) {/*expected*/}
     }
 
@@ -155,8 +156,8 @@ public class Task5Test {
         Task5 task = new Task5();
         task.setMonth(month);
         task.setDayOfMonth(day);
-        task.setWeekdayOfNewYear(weekdayOfNY);
+        task.setWeekdayOfNY(weekdayOfNY);
         task.calculateWeekday();
-        assertEquals(expectedWeekday, task.getCurrentWeekday());
+        assertEquals(expectedWeekday, task.getResultWeekday());
     }
 }

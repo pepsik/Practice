@@ -3,68 +3,102 @@ package task5;
 import java.util.Scanner;
 
 /**
- * Created by Berezovyi Aleksandr on 7/18/2016.
+ * The {@code Task4} class represents a simple calendar. It calculates weekday of common year using input values: month, day, weekdayOfNewYear.
+ * E.g. input values:
+ * <blockquote><pre>
+ * month = 2
+ * day = 28
+ * weekdayOfNewYear = 5
+ * </pre></blockquote>
+ * <p>and result will be</p>
+ * <blockquote><pre>
+ * weekday = 7
+ * </pre></blockquote>
  */
 public class Task5 {
-    private int allDays;
-    private int weekdayOfNewYear;
-    private int currentDay;
-    private int currentMonth;
-    private int currentWeekday;
+    private int allDays;//todo comment fields
+    private int weekdayOfNY;
+    private int curMonth;
+    private int resultWeekday;
 
-    public int getCurrentWeekday() {
-        return currentWeekday;
+    private static final int JANUARY = 500;
+
+    public int getResultWeekday() {
+        return resultWeekday;
     }
 
+    /**
+     * Sets day of month and checks if it valid otherwise {@link IllegalArgumentException} will thrown
+     * @param day input day of month
+     */
     public void setDayOfMonth(int day) {
-        currentDay = day;
-        if (currentMonth == 0)
-            throw new IllegalArgumentException("Must set month first!");
-        if (currentDay < 1)
-            throw new IllegalArgumentException("Day of month " + currentMonth + " must be more than 1");
-        if ((currentMonth % 2 == 0 && currentMonth < 8 && currentMonth != 2) || (currentMonth % 2 != 0 && currentMonth > 8)) {
-            if (currentDay > 30)
-                throw new IllegalArgumentException("Day of month " + currentMonth + " musts be between 1 and 30");
-        } else if (currentMonth == 2) {
-            if (currentDay > 28)
-                throw new IllegalArgumentException("Day of month " + currentMonth + " musts be between 1 and 28");
-        } else {
-            if (currentDay > 31)
-                throw new IllegalArgumentException("Day of month " + currentMonth + " musts be between 1 and 31");
+        if (curMonth == 0) {
+            throw new IllegalArgumentException("Please set month first using setMonth()");
         }
-        allDays += currentDay - 1;
+        if (day < 1) {
+            throw new IllegalArgumentException("Expected Day of month greater than 1, got "+day);
+        }
+        if ((curMonth % 2 == 0 && curMonth < 8 && curMonth != 2) || (curMonth % 2 != 0 && curMonth > 8)) {
+            if (day > 30) {
+                throw new IllegalArgumentException("Day of month " + curMonth + " musts be between 1 and 30");
+            }
+        } else if (curMonth == 2) {
+            if (day > 28) {
+                throw new IllegalArgumentException("Day of month " + curMonth + " musts be between 1 and 28");
+            }
+        } else {
+            if (day > 31) {
+                throw new IllegalArgumentException("Day of month " + curMonth + " musts be between 1 and 31");
+            }
+        }
+        allDays += day - 1;
     }
 
+    /**
+     * Sets month and checks if it valid otherwise {@link IllegalArgumentException} will thrown
+     * @param month input month of year
+     */
     public void setMonth(int month) {
-        if (month > 12 || month < 1)
+        if (month > 12 || month < 1) {
             throw new IllegalArgumentException("Month should be between 1 and 12");
-        currentMonth = month;
+        }
+        curMonth = month;
     }
 
-    public void setWeekdayOfNewYear(int weekday) {
-        if (weekday > 7 || weekday < 1)
+    /**
+     * Sets weekday of new year and checks if it valid otherwise {@link IllegalArgumentException} will thrown
+     * @param weekday input weekday of new year
+     */
+    public void setWeekdayOfNY(int weekday) {
+        if (weekday > 7 || weekday < 1) {
             throw new IllegalArgumentException("Weekday should be between 1 and 7");
-        weekdayOfNewYear = weekday;
+        }
+        weekdayOfNY = weekday;
     }
 
+    /**
+     * Calculate and sum all days before input day
+     */
     private void calculateDays() {
-        for (int i = 1; i < currentMonth; i++) {
-            if ((i % 2 == 0 && i < 8 && i != 2) || (i % 2 != 0 && i > 8)) {
-                allDays += 30;
+        for (int i = 1; i < curMonth; i++) {
+            if ((i % 2 == 0 && i < 8 && i != 2) || (i % 2 != 0 && i > 8)) {//todo comment, better rewrite
+                allDays += 30;//todo magic constant?
             } else if (i == 2) {
                 allDays += 28;
             } else {
                 allDays += 31;
             }
         }
-    }
+    }//todo enum, both for day and month
 
     public void calculateWeekday() {
         calculateDays();
-        if ((allDays + weekdayOfNewYear) % 7 == 0)
-            currentWeekday = 7;
-        else
-            currentWeekday = (allDays + weekdayOfNewYear) % 7;
+        if ((allDays + weekdayOfNY) % 7 == 0) {
+            resultWeekday = 7;
+        } else {
+
+            resultWeekday = (allDays + weekdayOfNY) % 7;
+        }
     }
 
     public static void main(String[] args) {
@@ -74,9 +108,9 @@ public class Task5 {
         task.setMonth(Integer.parseInt(scanner.nextLine()));
         System.out.print("Enter day of the month - ");
         task.setDayOfMonth(Integer.parseInt(scanner.nextLine()));
-        System.out.print("Enter weekdayOfNewYear - ");
-        task.setWeekdayOfNewYear(Integer.parseInt(scanner.nextLine()));
+        System.out.print("Enter weekdayOfNY - ");
+        task.setWeekdayOfNY(Integer.parseInt(scanner.nextLine()));
         task.calculateWeekday();
-        System.out.print("Result - " + task.getCurrentWeekday());
+        System.out.print("Result - " + task.getResultWeekday());
     }
 }
