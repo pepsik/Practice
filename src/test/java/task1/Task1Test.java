@@ -88,6 +88,8 @@ public class Task1Test {
         testXY(-r.nextInt(HALF), -r.nextInt(HALF));
         testXY(r.nextInt(HALF), -r.nextInt(HALF));
         testXY(-r.nextInt(HALF), r.nextInt(HALF));
+
+        testXY(MAX_VALUE, MAX_VALUE - 1);
     }
 
     /**

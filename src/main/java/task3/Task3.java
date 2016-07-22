@@ -11,66 +11,50 @@ package task3;
  * </pre></blockquote>
  */
 public class Task3 {
-    private int[] data;
+    private int[] data; //input values
 
     /**
-     * Initializes a newly created Task3 object with int array of values and checks it {@link Task3#checkValues()}
+     * Initializes a newly created Task3 object with array of values and validate {@link Task3#checkValues()}
+     *
      * @param data input values
      */
-    public Task3(int[] data) {
+    public Task3(int... data) {
         this.data = data;
         checkValues();
     }
 
     /**
      * Finds greatest common divisor (GCD)
+     *
      * @return max divider
      */
     public int getNOD() {
-        int min = findMinOfData();
-        int gcd = -1;
+        int commonGCD = gcd2val(data[0], data[data.length - 1]); // gcd between first and last values in data
 
-        // finding max divider
-        for (int i = min; i > 0; i--) {//todo simplify
-            gcd = i;//supposed it was found
-
-            //check if gcd is expected divider of all data values
-            for (int value : data) {
-
-                //if not divisible - skip (assigned -1)
-                if (value % i != 0) {
-                    gcd = -1;
-                    break;
-                }
+        for (int i = 1; i < data.length; i++) {
+            int gcd = gcd2val(data[i - 1], data[i]);
+            if (gcd < commonGCD) {
+                commonGCD = gcd;
             }
-            //break if gcd found
-            if (gcd != -1)//todo all with brackets
-                break;
         }
-        return gcd;
+        return commonGCD;
+    }
+
+    private int gcd2val(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd2val(b, a % b);
     }
 
     /**
-     * Checks values if they are not bigger than 1 - {@link IllegalArgumentException} will thrown
+     * Validate data values
+     * @throws IllegalArgumentException in case data[i] < 1
      */
     private void checkValues() {
         for (int value : data)
             if (value < 1) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Value must be greater than 0");
             }
-    }
-
-    /**
-     * Finds minimum values of input array values
-     * @return min value
-     */
-    private int findMinOfData() {
-        int min = Integer.MAX_VALUE;
-        for (int value : data) {
-            if (min > value) {
-                min = value;
-            }
-        }
-        return min;
     }
 }
