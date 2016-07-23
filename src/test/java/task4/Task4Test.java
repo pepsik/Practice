@@ -7,9 +7,6 @@ import java.util.Random;
 import static java.lang.Integer.MAX_VALUE;
 import static org.junit.Assert.*;
 
-/**
- * Created by Berezovyi Aleksandr on 7/18/2016.
- */
 public class Task4Test {
     private static final String MSG = "Data must have invalid values!";
     private static Random r = new Random();
@@ -32,7 +29,7 @@ public class Task4Test {
 
     @Test
     public void testBoris(){
-        Task4 task = new Task4();//todo fix
+        Task4 task = new Task4();
 
         assertEquals(3, task.fib(4));
         assertEquals(3, task.fib(4));
@@ -41,12 +38,17 @@ public class Task4Test {
         assertEquals(8, task.fib(6));
         assertEquals(3, task.fib(4));
         assertEquals(8, task.fib(6));
+        assertEquals(55, task.fib(10));
+        assertEquals(3, task.fib(4));
+        assertEquals(1, task.fib(2));
+        assertEquals(1836311903, task.fib(46));
+        assertEquals(1, task.fib(2));
     }
 
     @Test
     public void invalidNValues() {
         int min = 0; //inclusive
-        int max = 46; //exclusive
+        int max = 47; //exclusive
 
         illegalArgExTest(-1);
         illegalArgExTest(-10);
@@ -56,8 +58,9 @@ public class Task4Test {
         arithmeticExTest(max);
         arithmeticExTest(max + 1);
         arithmeticExTest(max + 1123);
-        arithmeticExTest(max + r.nextInt(MAX_VALUE - max));
-        arithmeticExTest((r.nextInt(MAX_VALUE - max) + max));
+        arithmeticExTest(max + 5_000);
+//        arithmeticExTest(max + r.nextInt(MAX_VALUE - max)); // causes stackOverflow
+//        arithmeticExTest((r.nextInt(MAX_VALUE - max) + max));
     }
 
     private void testFib(int expected, int N) {

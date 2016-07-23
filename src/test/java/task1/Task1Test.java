@@ -2,6 +2,7 @@ package task1;
 
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.Random;
 
 import static java.lang.Integer.MAX_VALUE;
@@ -14,28 +15,6 @@ public class Task1Test {
     private static Random r = new Random();
     private static final int HALF = MAX_VALUE / 2;
     private static final String MSG = "Data must have invalid values!";
-
-    @Test
-    public void invalidValues() {
-        testXYExpectEx(MAX_VALUE, 1);
-        testXYExpectEx(1, MAX_VALUE);
-        testXYExpectEx(MAX_VALUE, r.nextInt(MAX_VALUE));
-        testXYExpectEx(r.nextInt(MAX_VALUE), MAX_VALUE);
-
-        testXYExpectEx(-MAX_VALUE, MAX_VALUE);
-        testXYExpectEx(MAX_VALUE, -MAX_VALUE);
-        testXYExpectEx(HALF, HALF + 2);
-        testXYExpectEx(-HALF, -HALF - 2);
-
-        int temp1 = r.nextInt(MAX_VALUE), temp2 = MAX_VALUE - temp1 + 1;
-        testXYExpectEx(temp1, temp2);
-        testXYExpectEx(temp2, temp1);
-
-        temp1 = -r.nextInt(MAX_VALUE);
-        temp2 = MAX_VALUE + temp1 + 1;
-        testXYExpectEx(temp1, temp2);
-        testXYExpectEx(temp2, temp1);
-    }
 
     @Test
     public void validValues() {
@@ -93,22 +72,6 @@ public class Task1Test {
     }
 
     /**
-     * Checks invalid x, y values and expecting {@link ArithmeticException}
-     * <p>If no {@link ArithmeticException} thrown test will fail </p>
-     *
-     * @param x int
-     * @param y int
-     */
-    private static void testXYExpectEx(int x, int y) {
-        try {
-            new Task1(x, y);
-            fail(MSG);
-        } catch (ArithmeticException e) {
-            /*expected*/
-        }
-    }
-
-    /**
      * Checks valid x, y values and expecting success asserts
      * <p> If any Exception will be thrown test will fail</p>
      *
@@ -118,7 +81,7 @@ public class Task1Test {
     private static void testXY(int x, int y) {
         Task1 task = new Task1(x, y);
         task.inverseXY();
-        assertEquals(x, task.getY());
-        assertEquals(y, task.getX());
+        assertEquals(BigInteger.valueOf(x), task.getY());
+        assertEquals(BigInteger.valueOf(y), task.getX());
     }
 }

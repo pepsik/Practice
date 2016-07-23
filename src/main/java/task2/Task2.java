@@ -42,17 +42,18 @@ public class Task2 {
      */
     public int getFloor(int apart) {
         int ape = apartPerFloor * floors; // all Apartments Per Entrance
-        int leftAparts = apart % ape;        //apartments leftAparts in entrance where is searching apartment
+        int leftAparts = apart % ape;        //left apartments in entrance where is target apart
+        int floor = leftAparts / apartPerFloor;
 
-        if (leftAparts == 0) {    //found last floor (ape = 36, need apart = 36, leftAparts = 0 then it on the last floor)
+        if (leftAparts == 0) {    //found last floor (ape = 36, target apart = 36, leftAparts = 0, -> last floor)
             return floors;
         }
 
-        if (leftAparts % apartPerFloor == 0) {  //found last apartment on floor
-            return leftAparts / apartPerFloor; //todo refact
+        if (leftAparts % apartPerFloor == 0) {  //find last apartment on floor
+            return floor;
         }
 
-        return leftAparts / apartPerFloor + 1; // floors starts with 0, then add + 1 (leftAparts = 4, apartPerFloor = 5, return 0 + 1)
+        return floor + 1; // floors starts with 0, then add + 1 (leftAparts = 4, apartPerFloor = 5, return 0 + 1)
     }
 
     /**
@@ -63,11 +64,12 @@ public class Task2 {
      */
     public int getEntrance(int apart) {
         int ape = apartPerFloor * floors; // all Apartments Per Entrance
+        int entrance = apart / ape;
 
-        if (apart % ape == 0) {      //numbers of apartments multiples of ape (ape = 36, target apart=36, return 36/36=1)
-            return apart / ape; //todo refact
+        if (apart % ape == 0) {      //target apart can be last in entrance
+            return entrance;
         }
-        return apart / ape + 1; //in other cause add 1 (ape=36, target apart=37, 37/36 + 1 = 2 entrance)
+        return entrance + 1;
     }
 
     /**

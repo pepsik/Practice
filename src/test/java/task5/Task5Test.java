@@ -6,12 +6,58 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Berezovyi Aleksandr on 7/18/2016.
- */
 public class Task5Test {
     private static final String MSG = "Data must have invalid values!";
     private Random r = new Random();
+
+    @Test
+    public void validValues() {
+        testExpectWeekday(1, 1, 1, 1);
+        testExpectWeekday(1, 1, 7, 7);
+        testExpectWeekday(2, 1, 1, 2);
+        testExpectWeekday(2, 1, 7, 1);
+        testExpectWeekday(31, 1, 1, 3);
+        testExpectWeekday(31, 1, 7, 2);
+        testExpectWeekday(28, 2, 5, 7);
+        testExpectWeekday(28, 2, 1, 3);
+        testExpectWeekday(3, 8, 5, 2);
+        testExpectWeekday(25, 8, 5, 3);
+        testExpectWeekday(17, 7, 3, 4);
+        testExpectWeekday(19, 7, 5, 1);
+        testExpectWeekday(20, 11, 5, 6);
+        testExpectWeekday(31, 12, 5, 5);
+        testExpectWeekday(31, 12, 1, 1);
+        testExpectWeekday(31, 12, 7, 7);
+    }
+
+    @Test
+    public void validMonth() {
+        for (int i = 1; i <= 12; i++)
+            testMonth(i);
+    }
+
+    @Test
+    public void validWeekday() {
+        for (int i = 1; i <= 7; i++)
+            testWeekday(i);
+    }
+
+    @Test
+    public void validDayOfMonth() {
+        for (int i = 1; i <= 12; i++) {
+            testDay(1, i);
+            testDay(2, i);
+            testDay(28, i);
+            testDay(27, i);
+        }
+        testDay(31, 12);
+        testDay(31, 10);
+        testDay(31, 8);
+        testDay(31, 7);
+        testDay(31, 5);
+        testDay(31, 3);
+        testDay(31, 1);
+    }
 
     @Test
     public void invalidWeekday() {
@@ -60,55 +106,6 @@ public class Task5Test {
         testDayExpectEx(32, 8);
         testDayExpectEx(31, 11);
         testDayExpectEx(32, 12);
-    }
-
-    @Test
-    public void validMonth() {
-        for (int i = 1; i <= 12; i++)
-            testMonth(i);
-    }
-
-    @Test
-    public void validWeekday() {
-        for (int i = 1; i <= 7; i++)
-            testWeekday(i);
-    }
-
-    @Test
-    public void validDayOfMonth() {
-        for (int i = 1; i <= 12; i++) {
-            testDay(1, i);
-            testDay(2, i);
-            testDay(28, i);
-            testDay(27, i);
-        }
-        testDay(31, 12);
-        testDay(31, 10);
-        testDay(31, 8);
-        testDay(31, 7);
-        testDay(31, 5);
-        testDay(31, 3);
-        testDay(31, 1);
-    }
-
-    @Test
-    public void validValues() {
-        testExpectWeekday(1, 1, 1, 1);
-        testExpectWeekday(1, 1, 7, 7);
-        testExpectWeekday(2, 1, 1, 2);
-        testExpectWeekday(2, 1, 7, 1);
-        testExpectWeekday(31, 1, 1, 3);
-        testExpectWeekday(31, 1, 7, 2);
-        testExpectWeekday(28, 2, 5, 7);
-        testExpectWeekday(28, 2, 1, 3);
-        testExpectWeekday(3, 8, 5, 2);
-        testExpectWeekday(25, 8, 5, 3);
-        testExpectWeekday(17, 7, 3, 4);
-        testExpectWeekday(19, 7, 5, 1);
-        testExpectWeekday(20, 11, 5, 6);
-        testExpectWeekday(31, 12, 5, 5);
-        testExpectWeekday(31, 12, 1, 1);
-        testExpectWeekday(31, 12, 7, 7);
     }
 
     private void testWeekdayExpectEx(int weekday) {

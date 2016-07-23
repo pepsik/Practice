@@ -3,6 +3,8 @@ package task4;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Integer.MAX_VALUE;
+
 /**
  * The {@code Task4} class represents a logic to calculate Fibonacci number. E.g.
  * <blockquote><pre>
@@ -14,17 +16,11 @@ import java.util.List;
  * </pre></blockquote>
  */
 public class Task4 {
-    private static List<Integer> fibList = new ArrayList<>(); //cache for fib numbers
+    private static List<Integer> fList = new ArrayList<>(); //cache for fib numbers
 
-    /**
-     * Initializes a newly created Task4 object with first three fibonacci numbers
-     */
-    public Task4() {
-        fibList.add(0);
-        fibList.add(1);
-        fibList.add(1);
+    static {
+        fList.add(0);
     }
-    //todo recurs
 
     /**
      * Calculates fib number using N index
@@ -32,12 +28,10 @@ public class Task4 {
      * @param N input fib N
      * @return fib number
      */
+
     public int fib(int N) {
         checkValue(N);
-        if (fibList.size() - 1 != N) { // if no value in cache //tOdo fix N >
-            calculateFib(N);
-        }
-        return fibList.get(N);
+        return calculate(N);
     }
 
     /**
@@ -45,22 +39,29 @@ public class Task4 {
      *
      * @param N input fib N
      */
-    private void calculateFib(int N) {
-        for (int i = fibList.size() - 1; i <= N; i++) { // starts with last known fib number (size -1)
-            int result = checksFib(fibList.get(i - 1), fibList.get(i)); // checks if integer overflow
-            fibList.add(result);
+    private int calculate(int N) {
+        if (N <= 1) {
+            return N;
         }
+
+        if (N < fList.size()) {
+            return fList.get(N);
+        }
+
+        int result = sum2Fib(fib(N - 2), fib(N - 1));
+        fList.add(result);
+        return result;
     }
 
     /**
-     * Sum 2 fib numbers
+     * Sum last known N and N-1 fib numbers
      *
      * @param f last fib number N
      * @param s N-1 fib number
      * @return sum last fib numbers N + (N -1)
      */
-    private int checksFib(int f, int s) {
-        if (Integer.MAX_VALUE - f < s) {
+    private int sum2Fib(int f, int s) {
+        if (f > MAX_VALUE - s) {
             throw new ArithmeticException();
         }
         return f + s;
@@ -76,5 +77,6 @@ public class Task4 {
         if (N < 0) {
             throw new IllegalArgumentException("N Should more than 0");
         }
+
     }
 }
