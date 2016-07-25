@@ -18,10 +18,13 @@ import java.math.BigInteger;
 public class Task1 {
 
     /**
-     * foo
+     * input value1 to swap
      */
-    private BigInteger x; //value1 to swap
-    private BigInteger y; //value2 to swap
+    private BigInteger x;
+    /**
+     * input value2 to swap
+     */
+    private BigInteger y;
 
     /**
      * Initializes a newly created Task1 object with two values x, y

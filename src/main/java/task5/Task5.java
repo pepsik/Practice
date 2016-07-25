@@ -1,8 +1,6 @@
 package task5;
 
-import static task5.Month.*;
-import static task5.Weekday.MONDAY;
-import static task5.Weekday.SUNDAY;
+import static task5.Task5.Weekday.SUNDAY;
 
 /**
  * The {@code Task4} class represents a simple calendar. It calculates weekday of common year using input values: month, day, weekdayOfNewYear.
@@ -24,6 +22,48 @@ public class Task5 {
     private Month month; //input month
 
     private Weekday resultWeekday; //return value
+
+    enum Weekday {
+        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
+
+        public int index() {
+            return this.ordinal() + 1;
+        }
+
+        public static Weekday valueOf(int idx) {
+            for (Weekday w : values()) {
+                if (w.ordinal() == idx - 1) {
+                    return w;
+                }
+            }
+            return null;
+        }
+    }
+
+    enum Month {
+        JANUARY(31), FEBRUARY(28), MARCH(31), APRIL(30),
+        MAY(31), JUNE(30), JULY(31), AUGUST(31), SEPTEMBER(30),
+        OCTOBER(31), NOVEMBER(30), DECEMBER(31);
+
+        private int days;
+
+        Month(int days) {
+            this.days = days;
+        }
+
+        public int getDays() {
+            return days;
+        }
+
+        public static Month valueOf(int idx) {
+            for (Month m : values()) {
+                if (m.ordinal() == idx - 1) {
+                    return m;
+                }
+            }
+            return null;
+        }
+    }
 
     public int getResultWeekday() {
         return resultWeekday.ordinal() + 1;
@@ -87,53 +127,11 @@ public class Task5 {
 
     public void calculateWeekday() {
         calculateDays();
-        //(allDays + weekdayOfNY.index() add days before weekday (from Friday to Monday = 5) and suggest year starts from monday
-        if ((allDays + weekdayOfNY.index()) % SUNDAY.index() == 0) { //if get 0 therefore it Sunday (if year starts from Monday than 7 January - Sunday)
+        //(allDays + weekdayOfNY.index()) add days before weekdayOfNY (from Friday to Monday = 5) and suggest year starts from monday
+        if ((allDays + weekdayOfNY.index()) % SUNDAY.index() == 0) { //if get 0 therefore it's Sunday (if year starts from Monday than 7 January is Sunday)
             resultWeekday = SUNDAY;
         } else {
             resultWeekday = Weekday.valueOf((allDays + weekdayOfNY.index()) % SUNDAY.index());
         }
-    }
-}
-
-enum Weekday {
-    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
-
-    public int index() {
-        return this.ordinal() + 1;
-    }
-
-    public static Weekday valueOf(int idx) {
-        for (Weekday w : values()) {
-            if (w.ordinal() == idx - 1) {
-                return w;
-            }
-        }
-        return null;
-    }
-}
-
-enum Month {
-    JANUARY(31), FEBRUARY(28), MARCH(31), APRIL(30),
-    MAY(31), JUNE(30), JULY(31), AUGUST(31), SEPTEMBER(30),
-    OCTOBER(31), NOVEMBER(30), DECEMBER(31);
-
-    private int days;
-
-    Month(int days) {
-        this.days = days;
-    }
-
-    public int getDays() {
-        return days;
-    }
-
-    public static Month valueOf(int idx) {
-        for (Month m : values()) {
-            if (m.ordinal() == idx - 1) {
-                return m;
-            }
-        }
-        return null;
     }
 }

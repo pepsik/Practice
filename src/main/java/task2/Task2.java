@@ -19,8 +19,14 @@ import static java.lang.Integer.MAX_VALUE;
  * </pre></blockquote>
  */
 public class Task2 {
-    private final int floors;           // input value - floors in house
-    private final int apartPerFloor;    //input value - apartment per floor
+    /**
+     * input value - floors in house
+     */
+    private final int floors;
+    /**
+     * input value - apartment per floor
+     */
+    private final int apartPerFloor;
 
     /**
      * Initializes a newly created Task2 object with two values: floors, apartmentsPerFloor and validates {@link Task2#checkValues()}

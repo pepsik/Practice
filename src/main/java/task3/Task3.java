@@ -11,7 +11,10 @@ package task3;
  * </pre></blockquote>
  */
 public class Task3 {
-    private int[] data; //input values
+    /**
+     * //input values
+     */
+    private int[] data;
 
     /**
      * Initializes a newly created Task3 object with array of values and validate {@link Task3#checkValues()}

@@ -16,7 +16,10 @@ import static java.lang.Integer.MAX_VALUE;
  * </pre></blockquote>
  */
 public class Task4 {
-    private static List<Integer> fList = new ArrayList<>(); //cache for fib numbers
+    /**
+     * cache for fib numbers
+     */
+    private static List<Integer> fList = new ArrayList<>();
 
     static {
         fList.add(0);
