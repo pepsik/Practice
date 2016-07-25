@@ -18,11 +18,11 @@ import java.math.BigInteger;
 public class Task1 {
 
     /**
-     * input value1 to swap
+     * value 1 to swap
      */
     private BigInteger x;
     /**
-     * input value2 to swap
+     * value 2 to swap
      */
     private BigInteger y;
 
@@ -32,9 +32,9 @@ public class Task1 {
      * @param x input x value
      * @param y input y value
      */
-    public Task1(int x, int y) {
-        this.x = BigInteger.valueOf(x);
-        this.y = BigInteger.valueOf(y);
+    public Task1(BigInteger x, BigInteger y) {
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -42,8 +42,8 @@ public class Task1 {
      */
     public void inverseXY() {
         x = x.add(y);
-        y = x.add(y.negate());
-        x = x.add(y.negate());
+        y = x.subtract(y);
+        x = x.subtract(y);
     }
 
     public BigInteger getX() {

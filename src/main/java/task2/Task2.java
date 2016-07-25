@@ -3,13 +3,13 @@ package task2;
 import static java.lang.Integer.MAX_VALUE;
 
 /**
- * The {@code Task2} class represents a simple house with numbers: house floors, apartments per floor, entrances and apartment number.
+ * The {@code Task2} class represents a simple house with numbers: house floors, apartments per floor, entrances.
  * <p>The purpose of this class is to count numbers of entrance and floor using 3 input values:
  * floors, apartments per floor and apartment to find.
  * <p>E.g. input data
  * <blockquote><pre>
  * floors = 9
- * apartPerFloor = 4
+ * apartmentsPerFloor = 4
  * apartment = 72
  * </pre></blockquote>
  * will find apartment 72 and return
@@ -20,13 +20,14 @@ import static java.lang.Integer.MAX_VALUE;
  */
 public class Task2 {
     /**
-     * input value - floors in house
+     * floors in house
      */
     private final int floors;
+
     /**
-     * input value - apartment per floor
+     * apartments per floor
      */
-    private final int apartPerFloor;
+    private final int apartmentsPerFloor;
 
     /**
      * Initializes a newly created Task2 object with two values: floors, apartmentsPerFloor and validates {@link Task2#checkValues()}
@@ -36,60 +37,67 @@ public class Task2 {
      */
     public Task2(int floors, int apartmentsPerFloor) {
         this.floors = floors;
-        this.apartPerFloor = apartmentsPerFloor;
+        this.apartmentsPerFloor = apartmentsPerFloor;
         checkValues();
     }
 
     /**
      * Finds a floor number by given apartment number
      *
-     * @param apart input apartment value
+     * @param inputApartment input apartment number
      * @return floor number
      */
-    public int getFloor(int apart) {
-        int ape = apartPerFloor * floors; // all Apartments Per Entrance
-        int leftAparts = apart % ape;        //left apartments in entrance where is target apart
-        int floor = leftAparts / apartPerFloor;
+    public int getFloor(int inputApartment) {
+        int apartmentsPerEntrance = apartmentsPerFloor * floors; // number of apartments per entrance
+        int apartmentsLeftInEntrance = inputApartment % apartmentsPerEntrance;  //apartments left in entrance where is target apartment
+        int targetFloor = apartmentsLeftInEntrance / apartmentsPerFloor;
 
-        if (leftAparts == 0) {    //found last floor (ape = 36, target apart = 36, leftAparts = 0, -> last floor)
+        if (apartmentsLeftInEntrance == 0) {    //if target floor is the last in entrance
             return floors;
         }
 
-        if (leftAparts % apartPerFloor == 0) {  //find last apartment on floor
-            return floor;
+        if (apartmentsLeftInEntrance % apartmentsPerFloor == 0) {  //if target apartment is last on floor
+            return targetFloor;
         }
 
-        return floor + 1; // floors starts with 0, then add + 1 (leftAparts = 4, apartPerFloor = 5, return 0 + 1)
+        return targetFloor + 1; // in other cases add 1 to floor count
+        // e.g. apartmentsLeftInEntrance = 4, apartmentsPerFloor = 5, return floor = 0 + 1
     }
 
     /**
      * Finds a entrances number by given apartment number
      *
-     * @param apart input apartment value
+     * @param inputApartment input apartment number
      * @return entrance number
      */
-    public int getEntrance(int apart) {
-        int ape = apartPerFloor * floors; // all Apartments Per Entrance
-        int entrance = apart / ape;
+    public int getEntrance(int inputApartment) {
+        int apartmentsPerEntrance = apartmentsPerFloor * floors; // all apartments per entrance
+        int targetEntrance = inputApartment / apartmentsPerEntrance;  //finds target entrance
 
-        if (apart % ape == 0) {      //target apart can be last in entrance
-            return entrance;
+        if (inputApartment % apartmentsPerEntrance == 0) {     //if target apartment last in entrance
+            return targetEntrance;                            //e.g. (apartmentsPerEntrance = 25, inputApartment = 25, targetEntrance = 1)
+
         }
-        return entrance + 1;
+        return targetEntrance + 1; //if target apartment not last in entrance then add 1 to entrance count
+        //e.g. (apartmentsPerEntrance = 25, inputApartment = 26, targetEntrance = 26/25 + 1 = 1)
     }
 
     /**
-     * Validates the values floors and apartPerFloor
+     * Validates the values floors and apartmentsPerFloor
      *
-     * @throws IllegalArgumentException in case ({@code apartPerFloor < 1 or floors < 1})
-     * @throws ArithmeticException      in case ({@code apartPerFloor * floors > Integer.MAX_VALUE})
+     * @throws IllegalArgumentException in case ({@code apartmentsPerFloor < 1 or floors < 1})
+     * @throws ArithmeticException      in case ({@code apartmentsPerFloor * floors > Integer.MAX_VALUE})
      */
     private void checkValues() {
-        if (floors < 1 || apartPerFloor < 1) {
-            throw new IllegalArgumentException("Floors and apartPerFloor must > 0");
+        if (floors < 1) {
+            throw new IllegalArgumentException("Expected floors > 0, got " + floors);
         }
-        if (MAX_VALUE / apartPerFloor < floors) {
-            throw new ArithmeticException("Floors and apartPerFloor cause integer overflow! (floors * apartPerFloor)");
+        if (apartmentsPerFloor < 1) {
+            throw new IllegalArgumentException("Expected apartments per floor > 0, got " + apartmentsPerFloor);
+        }
+        if (floors > MAX_VALUE / apartmentsPerFloor) {
+            throw new ArithmeticException("Values are too big! " +
+                    "floors=" + floors + " apartmentsPerFloor=" + apartmentsPerFloor);
         }
     }
 }

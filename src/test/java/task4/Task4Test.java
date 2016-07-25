@@ -12,7 +12,7 @@ public class Task4Test {
     private static Random r = new Random();
 
     @Test
-    public void validNValues() {
+    public void testValidNValues() {
         testFib(0, 0);
         testFib(1, 1);
         testFib(1, 2);
@@ -28,7 +28,7 @@ public class Task4Test {
     }
 
     @Test
-    public void testBoris(){
+    public void testBoris() {
         Task4 task = new Task4();
 
         assertEquals(3, task.fib(4));
@@ -46,21 +46,22 @@ public class Task4Test {
     }
 
     @Test
-    public void invalidNValues() {
+    public void testInvalidNValues() {
         int min = 0; //inclusive
-        int max = 47; //exclusive
+        int max = 46; //exclusive
 
-        illegalArgExTest(-1);
-        illegalArgExTest(-10);
-        illegalArgExTest(-1123);
-        illegalArgExTest(-r.nextInt(MAX_VALUE));
+        testIllegalArgEx(-1);
+        testIllegalArgEx(-10);
+        testIllegalArgEx(-1123);
+        testIllegalArgEx(-r.nextInt(MAX_VALUE));
 
-        arithmeticExTest(max);
-        arithmeticExTest(max + 1);
-        arithmeticExTest(max + 1123);
-        arithmeticExTest(max + 5_000);
-//        arithmeticExTest(max + r.nextInt(MAX_VALUE - max)); // causes stackOverflow
-//        arithmeticExTest((r.nextInt(MAX_VALUE - max) + max));
+        testIllegalArgEx(max + 1);
+        testIllegalArgEx(max + 2);
+        testIllegalArgEx(max + 100);
+        testIllegalArgEx(max + 2000);
+        testIllegalArgEx(max + 5200);
+        testIllegalArgEx(max + 10000);
+        testIllegalArgEx(max + r.nextInt(MAX_VALUE - max));
     }
 
     private void testFib(int expected, int N) {
@@ -68,19 +69,11 @@ public class Task4Test {
         assertEquals(expected, task.fib(N));
     }
 
-    private void illegalArgExTest(int N) {
+    private void testIllegalArgEx(int N) {
         Task4 task = new Task4();
         try {
             task.fib(N);
             fail(MSG);
         } catch (IllegalArgumentException e) { /*expected*/ }
-    }
-
-    private void arithmeticExTest(int N) {
-        Task4 task = new Task4();
-        try {
-            task.fib(N);
-            fail(MSG);
-        } catch (ArithmeticException e) { /*expected*/ }
     }
 }

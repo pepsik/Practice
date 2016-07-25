@@ -12,7 +12,7 @@ package task3;
  */
 public class Task3 {
     /**
-     * //input values
+     * Values for which are looking gdc
      */
     private int[] data;
 
@@ -43,6 +43,12 @@ public class Task3 {
         return commonGCD;
     }
 
+    /**
+     *
+     * @param a first value
+     * @param b first value
+     * @return max gdc
+     */
     private int gcd2val(int a, int b) {
         if (b == 0) {
             return a;
@@ -52,12 +58,13 @@ public class Task3 {
 
     /**
      * Validate data values
+     *
      * @throws IllegalArgumentException in case data[i] < 1
      */
     private void checkValues() {
         for (int value : data)
             if (value < 1) {
-                throw new IllegalArgumentException("Value must be greater than 0");
+                throw new IllegalArgumentException("Input value must be greater than 0, WAS: " + value);
             }
     }
 }

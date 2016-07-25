@@ -17,69 +17,54 @@ import static java.lang.Integer.MAX_VALUE;
  */
 public class Task4 {
     /**
-     * cache for fib numbers
+     * Minimum possible fib number
+     */
+    private static final int MIN_N = 0;
+
+    /**
+     * Maximum possible fib number
+     */
+    private static final int MAX_N = 46;
+
+    /**
+     * Cache for fib values
+     * Starts N = 0,1 with fib(1) = 0, fib(1) = 1
      */
     private static List<Integer> fList = new ArrayList<>();
 
-    static {
-        fList.add(0);
-    }
-
     /**
-     * Calculates fib number using N index
+     * Calculates fib(N)
      *
-     * @param N input fib N
-     * @return fib number
+     * @param N input fib index N
+     * @return fib(N)
      */
-
     public int fib(int N) {
-        checkValue(N);
+        if (N < MIN_N) {
+            throw new IllegalArgumentException("N Should more than " + MIN_N + " but WAS: " + N);
+        }
+        if (N > MAX_N) {
+            throw new IllegalArgumentException("N Should less than " + MAX_N + " but WAS: " + N);
+        }
         return calculate(N);
     }
 
     /**
-     * Calculate and add new Fib numbers to list
+     * Calculate and add new fib numbers to list
+     * Starts fib(0) = 0, fiv(1) = 1
      *
-     * @param N input fib N
+     * @param N input fib index N
      */
     private int calculate(int N) {
         if (N <= 1) {
             return N;
         }
 
-        if (N < fList.size()) {
-            return fList.get(N);
+        if (N - 1 < fList.size()) {
+            return fList.get(N - 1);
         }
 
-        int result = sum2Fib(fib(N - 2), fib(N - 1));
+        int result = fib(N - 2) + fib(N - 1);
         fList.add(result);
         return result;
-    }
-
-    /**
-     * Sum last known N and N-1 fib numbers
-     *
-     * @param f last fib number N
-     * @param s N-1 fib number
-     * @return sum last fib numbers N + (N -1)
-     */
-    private int sum2Fib(int f, int s) {
-        if (f > MAX_VALUE - s) {
-            throw new ArithmeticException();
-        }
-        return f + s;
-    }
-
-    /**
-     * Validate value N
-     *
-     * @param N input fib N
-     * @throws IllegalArgumentException in case N < 0
-     */
-    private void checkValue(int N) {
-        if (N < 0) {
-            throw new IllegalArgumentException("N Should more than 0");
-        }
-
     }
 }
