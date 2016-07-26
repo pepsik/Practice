@@ -62,8 +62,9 @@ public class Task5Test {
 
     @Test
     public void testValidMonth() {
-        for (int i = 1; i <= 12; i++)
+        for (int i = 1; i <= 12; i++) {
             assertSetMonth(i);
+        }
 
         assertEquals(Month.valueOf(1), Month.JANUARY);
         assertEquals(Month.valueOf(2), Month.FEBRUARY);
@@ -100,34 +101,54 @@ public class Task5Test {
         assertEquals(null, task.getWeekdayOfNY());
         assertEquals(0, task.getAllDays());
 
-        Month month = Month.valueOf(r.nextInt(Month.values().length));
-        Weekday weekday = Weekday.valueOf(r.nextInt(Weekday.values().length));
-        int day = r.nextInt(month.getDays()) + 1;
-
-
+        //------test setters------
+        //test weekday
+        //test fields except set field
+        task = new Task5();
+        Weekday weekday = Weekday.valueOf(r.nextInt(Weekday.values().length) + 1);
         task.setWeekdayOfNY(weekday.index());
 
         assertEquals(null, task.getMonth());
-        assertEquals(weekday, task.getWeekdayOfNY());
         assertEquals(0, task.getAllDays());
+
+        //test set field
+        for (int i = 1; i <= 7; i++) {
+            task = new Task5();
+            task.setWeekdayOfNY(i);
+
+            assertEquals(i, task.getWeekdayOfNY().index());
+        }
+
+        //set day
+        //test fields except set field
+        task = new Task5();
+        Month month = Month.valueOf(r.nextInt(Month.values().length) + 1);
+        int day = r.nextInt(month.getDays()) + 1;
+        task.setMonth(month.index()); //?
+        task.setDayOfMonth(day);
+
+        assertEquals(null, task.getWeekdayOfNY());
+
+        //set month
+        //test fields except set field
+        task = new Task5();
+        month = Month.valueOf(r.nextInt(Month.values().length) + 1);
+        task.setMonth(month.index());
+
+        assertEquals(null, task.getWeekdayOfNY());
+        assertEquals(0, task.getAllDays());
+
+
+        //--------end--------
 
         //todo set, get in one methods
         // check state
+
+
     }
 
     @Test
     public void testValidWeekday() {
-        for (int i = 1; i <= 7; i++) {
-            Task5 task = new Task5();
-
-            int allDays = task.getAllDays();
-            Month month = task.getMonth();
-            task.setWeekdayOfNY(i);
-
-            assertEquals(i, task.getWeekdayOfNY().index());
-            assertEquals(allDays, task.getAllDays());
-            assertEquals(month, task.getMonth());
-        }
 
         assertEquals(Weekday.valueOf(1), Weekday.MONDAY);
         assertEquals(Weekday.valueOf(2), Weekday.TUESDAY);
@@ -231,10 +252,6 @@ public class Task5Test {
         exceptionSetDay(32, 8);
         exceptionSetDay(31, 11);
         exceptionSetDay(32, 12);
-    }
-
-    private void assertSetWeekday(int weekday) {
-
     }
 
     private void assertSetMonth(int month) {
