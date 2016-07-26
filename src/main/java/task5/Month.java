@@ -22,30 +22,4 @@ enum Month {
     public int getDays() {
         return days;
     }
-
-    /**
-     * Return real month index (e.g. JANUARY=1, DECEMBER=12)
-     *
-     * @return month index
-     */
-    public int index() {
-        return this.ordinal() + 1;
-    }
-
-
-    /**
-     * Checks and return valid month by index
-     *
-     * @param idx month index
-     * @return Month by index
-     * @throws IllegalArgumentException in case {@code idx < 1 or idx > 12}
-     */
-    public static Month valueOf(int idx) {
-        for (Month m : values()) {
-            if (m.index() == idx) {
-                return m;
-            }
-        }
-        throw new IllegalArgumentException("Month should be between 1 and 12 but WAS:" + idx);
-    }
 }

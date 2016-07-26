@@ -1,7 +1,5 @@
 package task5;
 
-import static task5.Weekday.SUNDAY;
-
 /**
  * The {@code Task4} class represents a simple calendar. It calculates weekday of common year using input values: month, day, weekdayOfNewYear.
  * E.g. input values:
@@ -18,53 +16,33 @@ import static task5.Weekday.SUNDAY;
 public class Task5 {
 
     /**
-     * Accumulate all days before input date
+     * Day of month
      */
-    private int allDays;
+    private int day;
 
     /**
      * Weekday of new year
      */
-    private Weekday weekdayOfNY;
+    private int weekdayOfNY;
 
     /**
      * Month of year
      */
-    private Month month;
+    private int month;
 
     /**
      * Result weekday
      */
-    private Weekday result;
-
-    public int getResultWeekday() {
-        return result.index();
-    }
-
-    public int getAllDays() {
-        return allDays;
-    }
-
-    public Month getMonth() {
-        return month;
-    }
+    private int result;
 
     /**
-     * Sets day of month and validate
+     * Sets day of month and validate. Can be set after month number.
      *
      * @param day input day of month
      * @throws IllegalArgumentException in cause if day of the month incorrect
      */
     public void setDayOfMonth(int day) {
-        if (month == null) {
-            throw new IllegalArgumentException("Please set month first!");
-        }
-
-        if (day < 1 || day > month.getDays()) {
-            throw new IllegalArgumentException("Day of month musts be between 1 and " + month.getDays());
-        }
-
-        allDays += day - 1; // add all days before input day (e.g. jan 15 , alldays = 14)
+        this.day = day;
     }
 
     /**
@@ -73,7 +51,7 @@ public class Task5 {
      * @param monthIndex input month of year
      */
     public void setMonth(int monthIndex) {
-        month = Month.valueOf(monthIndex);
+        month = monthIndex;
     }
 
     /**
@@ -82,37 +60,75 @@ public class Task5 {
      * @param weekdayIndex input weekday of new year
      */
     public void setWeekdayOfNY(int weekdayIndex) {
-        weekdayOfNY = Weekday.valueOf(weekdayIndex);
+        weekdayOfNY = weekdayIndex;
     }
 
-    public Weekday getWeekdayOfNY() {
+    public int getResultWeekday() {
+        return result;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getWeekdayOfNY() {
         return weekdayOfNY;
     }
 
     /**
      * Calculate and sum all days before input day
      */
-    private void calculateDays() {
+    private int calculateDays() {
+        checkValues();
+        int allDays = 0;
         for (Month m : Month.values()) {
-            if (m.equals(month)) {
+            if (m.ordinal() + 1 == month) {
                 break;
             }
-            allDays += m.getDays();
+            allDays += m.getDays(); //add all month days
         }
+        allDays += day - 1; //add days before target day in current month
+        return allDays;
     }
 
     /**
      * Calculates weekday
      */
     public void calculateWeekday() {
-        calculateDays();
-        int days = allDays + weekdayOfNY.index(); // suppose NY starts with Monday then add weekday of NY index to all days
-        int targetWeekday = days % SUNDAY.index();
+        final int sunday = 7;
+
+        int days = calculateDays() + weekdayOfNY; // suppose NY starts with Monday then add weekday of NY index to all days
+        int targetWeekday = days % sunday;
 
         if (targetWeekday == 0) { //if get 0 therefore it's Sunday (e.g. if 1 Jan is MONDAY than 7 Jan is SUNDAY, but we have 7%7=0)
-            result = SUNDAY;
+            result = sunday;
         } else {
-            result = Weekday.valueOf(targetWeekday);
+            result = targetWeekday;
+        }
+    }
+
+    /**
+     * Validates values
+     *
+     * @throws IllegalArgumentException in cases (1 < month, month > 12) or (1 < day, day > month days) or (1 < weekday, weekday > 7)
+     */
+    private void checkValues() {
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("Month should be between 1 and 12 but WAS:" + month);
+        }
+
+        Month month = Month.values()[this.month - 1]; // find valid enum month
+
+        if (day < 1 || day > month.getDays()) { //checks day value
+            throw new IllegalArgumentException("Day of month musts be between 1 and " + month.getDays());
+        }
+
+        if (weekdayOfNY < 1 || weekdayOfNY > 7) {
+            throw new IllegalArgumentException("Weekday should be between 1 and 7 but WAS: " + weekdayOfNY);
         }
     }
 }
